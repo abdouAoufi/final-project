@@ -12,3 +12,7 @@ export const getDataUser = () => {
     };
     return dataUser;
 };
+
+export const deleteDataUser = () => {
+    localStorage.clear();
+};

@@ -1,7 +1,12 @@
-import React from "react";
+import React, { useState } from "react";
+import Button from "../../components/Button/Button";
 
 function Post(props) {
   const { name, time, content, comment, likes, imgSrc } = props;
+  const [isLiked, setIsLiked] = useState(false);
+  const [numLikes, setNumLikes] = useState(likes);
+  const [typoComment, setTypoComment] = useState("");
+
   return (
     <div className='bg-white mx-32 rounded-md shadow-md h-auto py-3 px-3 my-5'>
       <div className='w-full h-16  items-center flex justify-between '>
@@ -33,7 +38,9 @@ function Post(props) {
         </svg>
       </div>
       <p>{content}</p>
-      {imgSrc !== undefined && <img className='h-full w-full' src={imgSrc} />}
+      {imgSrc !== undefined && (
+        <img className='h-full w-full mt-2 rounded-md' src={imgSrc} />
+      )}
       {/* {imgSrc ? <img className='h-full w-full' src={imgSrc} /> : null} */}
 
       <div className='w-full h-8 flex items-center px-3 my-3'>
@@ -68,26 +75,45 @@ function Post(props) {
           </svg>
         </div>
         <div className='w-full flex justify-between'>
-          <p className='ml-3 text-gray-500'>{likes}</p>
+          <p className='ml-3 text-gray-500'>{numLikes}</p>
           <p className='ml-3 text-gray-500'>{comment} comment</p>
         </div>
       </div>
       <hr />
       <div className='grid grid-cols-3 w-full px-5 px-5 my-3'>
-        <button className='flex flex-row justify-center items-center w-full space-x-3'>
+        <button
+          onClick={() => {
+            // setIsliked(!isLiked)
+            setIsLiked((currentState) => setIsLiked(!currentState));
+            // setNumLikes(numLikes + 1); // bad practice
+            console.log(isLiked);
+            setNumLikes((currentLikes) => {
+              if (!isLiked) {
+                setNumLikes(currentLikes + 1);
+              } else {
+                setNumLikes(currentLikes - 1);
+              }
+            });
+          }}
+          className='flex flex-row justify-center items-center w-full space-x-3'>
           <svg
             xmlns='http://www.w3.org/2000/svg'
             width={27}
             height={27}
             viewBox='0 0 24 24'
-            fill='none'
-            stroke='#838383'
+            fill={isLiked ? "#2f89fc" : "none"}
+            stroke={isLiked ? "#ffffff" : "#838383"}
             strokeWidth={2}
             strokeLinecap='square'
             strokeLinejoin='round'>
             <path d='M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3' />
           </svg>
-          <span className='font-semibold text-lg text-gray-600'>Like</span>
+          <span
+            className={`font-semibold text-lg ${
+              isLiked ? "text-blue-400" : "text-gray-600"
+            }`}>
+            Like
+          </span>
         </button>
         <button className='flex flex-row justify-center items-center w-full space-x-3'>
           <svg
@@ -125,6 +151,20 @@ function Post(props) {
         </button>
       </div>
       <hr />
+      {isLiked && (
+        <div className='flex mt-2 gap-2'>
+          <input
+            className=' border-2 rounded py-3 px-2 flex-1'
+            type='text'
+            placeholder='Your comment'
+            onChange={(e) => {
+              setTypoComment(e.target.value);
+            }}
+            value={typoComment}
+          />
+          <Button text='Reply' onPress={() => alert(typoComment)} />
+        </div>
+      )}
     </div>
   );
 }

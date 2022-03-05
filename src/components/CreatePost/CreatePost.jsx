@@ -2,7 +2,7 @@ import React from "react";
 
 function CreatePost() {
   return (
-    <div className=''>
+    <div className='mt-28'>
       <div className='p-4 mt-8 rounded shadow-md mx-32 bg-white text-gray-500'>
         <div>
           <div className='w-full h-16  items-center flex justify-between px-5'>
