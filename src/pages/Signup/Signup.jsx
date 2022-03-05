@@ -1,5 +1,11 @@
+import Navbar from "../../components/Navbar/Navbar";
+
 const Signup = () => {
-  return <p>Signup</p>;
+  return (
+    <div>
+      <Navbar />
+    </div>
+  );
 };
 
 export default Signup;
