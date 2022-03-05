@@ -1,15 +1,18 @@
 import React, { useState } from "react";
 import Navbar from "../../components/Navbar/Navbar";
 import Button from "../../components/Button/Button";
+import { useNavigate } from "react-router-dom";
 
 function Reset() {
   const [email, setEmail] = useState("");
+  const navigation = useNavigate();
   const beginReset = () => {
     const payload = {
       email: email,
     };
     alert(JSON.stringify(payload));
     // ! https://myapp.api/reset-pwd
+    navigation("/confirmation", { email: email });
   };
   return (
     <div>

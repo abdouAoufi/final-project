@@ -2,6 +2,7 @@ import React from "react";
 import Navbar from "../../components/Navbar/Navbar";
 import { useState } from "react";
 import Button from "../../components/Button/Button";
+import { Link } from "react-router-dom";
 
 function Login() {
   const [email, setEmail] = useState("");
@@ -46,9 +47,10 @@ function Login() {
           />
 
           <p className='text-center text-md '>
-            Forget your password?{" "}
-												<br/>
-            <span className='font-bold text-sky-500'>Click here</span>{" "}
+            Forget your password? <br />
+            <Link to='/reset' className='font-bold text-sky-500'>
+              Click here
+            </Link>{" "}
           </p>
         </div>
       </div>
