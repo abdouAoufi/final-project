@@ -1,7 +1,21 @@
 import Navbar from "../../components/Navbar/Navbar";
 import Button from "../../components/Button/Button";
+import { useState } from "react";
 
 const Signup = () => {
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const beginSignup = () => {
+    const payload = {
+      name,
+      email,
+      password,
+    };
+    alert(JSON.stringify(payload , null , 2));
+  };
+
   return (
     <div>
       <Navbar />
@@ -12,18 +26,30 @@ const Signup = () => {
             className='border-2 px-4 py-2 rounded-md'
             type='text'
             placeholder='Your name'
+            onChange={(e) => {
+              setName(e.target.value);
+            }}
+            value={name}
           />
           <input
             className='border-2 px-4 py-2 rounded-md'
             type='email'
             placeholder='Your email'
+            onChange={(e) => {
+              setEmail(e.target.value);
+            }}
+            value={email}
           />
           <input
             className='border-2 px-4 py-2 rounded-md '
             type='password'
             placeholder='Your password'
+            onChange={(e) => {
+              setPassword(e.target.value);
+            }}
+            value={password}
           />
-          <Button text='Sign up' />
+          <Button text='Sign up' onPress={() => beginSignup()} />
         </div>
       </div>
     </div>
