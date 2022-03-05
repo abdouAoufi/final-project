@@ -1,11 +1,15 @@
 import Navbar from "../../components/Navbar/Navbar";
 import Button from "../../components/Button/Button";
 import { useState } from "react";
+import { signupAPI } from "../../api/api";
+import { useNavigate } from "react-router-dom";
+import { storeDataUser } from "../../utils/utils";
 
 const Signup = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const navigate = useNavigate();
 
   const beginSignup = () => {
     const payload = {
@@ -13,7 +17,13 @@ const Signup = () => {
       email,
       password,
     };
-    alert(JSON.stringify(payload , null , 2));
+    // alert(JSON.stringify(payload , null , 2));
+    signupAPI(payload).then((res) => {
+      if (res.status === 201) {
+        storeDataUser(name, email);
+        navigate("/");
+      }
+    });
   };
 
   return (

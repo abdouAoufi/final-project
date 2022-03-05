@@ -2,18 +2,32 @@ import React from "react";
 import Navbar from "../../components/Navbar/Navbar";
 import { useState } from "react";
 import Button from "../../components/Button/Button";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { loginAPI } from "../../api/api";
+import { storeDataUser } from "../../utils/utils";
 
 function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const navigation = useNavigate();
 
   const beginLogin = () => {
     const payload = {
       email,
       password,
     };
-    alert(JSON.stringify(payload, null, 2));
+    loginAPI(payload)
+      .then((res) => {
+        if (res.status === 200) {
+          storeDataUser(res.data.name, email);
+          navigation("/");
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+    // navigation("/");
+    // alert(JSON.stringify(payload, null, 2));
   };
   return (
     <div>
