@@ -1,6 +1,28 @@
-import React from "react";
+import React, { useState } from "react";
+import { createPostAPI } from "../../api/api";
+import { getDataUser } from "../../utils/utils";
 
 function CreatePost() {
+  const [description, setDescription] = useState("");
+  const name = getDataUser().name;
+  console.log({ name });
+  const imgUrl =
+    "https://images.unsplash.com/photo-1646932305829-aa5e39e8756e?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1550&q=80";
+
+  const proceedCreationPost = () => {
+    const payload = {
+      postCreator: name,
+      description: description,
+      imgUrl,
+    };
+    createPostAPI(payload)
+      .then((response) => {
+        console.log(response);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
   return (
     <div className='mt-28'>
       <div className='p-4 mt-8 rounded shadow-md mx-32 bg-white text-gray-500'>
@@ -15,6 +37,10 @@ function CreatePost() {
               type='text'
               className=' w-full rounded-full h-10 bg-gray-200 px-5'
               placeholder='What are you thinking?'
+              onChange={(e) => {
+                setDescription(e.target.value);
+              }}
+              value={description}
             />
           </div>
           <div className='w-full h-16 flex justify-between px-3 md:px-10 lg:px-24 xl:px-5 cursor-pointer'>
@@ -59,25 +85,13 @@ function CreatePost() {
               </span>
             </div>
             <div className='hidden xl:flex h-full items-center cursor-pointer'>
-              <svg
-                className='h-12  text-yellow-500 stroke-current'
-                xmlns='http://www.w3.org/2000/svg'
-                width={27}
-                height={27}
-                viewBox='0 0 24 24'
-                fill='none'
-                stroke='#b0b0b0'
-                strokeWidth={2}
-                strokeLinecap='square'
-                strokeLinejoin='round'>
-                <path d='M5.52 19c.64-2.2 1.84-3 3.22-3h6.52c1.38 0 2.58.8 3.22 3' />
-                <circle cx={12} cy={10} r={3} />
-                <circle cx={12} cy={12} r={10} />
-              </svg>
-              <span className='text-xs lg:text-md mx-2 font-semibold text-gray-500'>
-                {" "}
-                Feeling{" "}
-              </span>
+              <button
+                onClick={() => {
+                  proceedCreationPost();
+                }}
+                className='px-6 py-3 rounded-md bg-blue-500 text-white font-bold'>
+                Create post
+              </button>
             </div>
           </div>
         </div>

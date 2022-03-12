@@ -1,11 +1,53 @@
 import React, { useState } from "react";
 import Button from "../../components/Button/Button";
+import { updatePostAPI } from "../../api/api";
+import { getDataUser } from "../../utils/utils";
+
+const CommentSection = (props) => {
+  return (
+    <div>
+      {props.comments.map((cmnt) => (
+        <div>
+          <p className='font-bold text-lg'>{cmnt.commentCreator}</p>
+          <p className='text-gray-600'>{cmnt.comment}</p>
+        </div>
+      ))}
+    </div>
+  );
+};
 
 function Post(props) {
-  const { name, time, content, comment, likes, imgSrc } = props;
+  const { name, time, content, comment, likes, imgSrc, postID } = props;
   const [isLiked, setIsLiked] = useState(false);
   const [numLikes, setNumLikes] = useState(likes);
   const [typoComment, setTypoComment] = useState("");
+
+  const processLike = () => {
+    const payload = {
+      isLiked: !isLiked,
+    };
+    setIsLiked((currentState) => setIsLiked(!currentState));
+    setNumLikes((currentLikes) => {
+      if (!isLiked) {
+        setNumLikes(currentLikes + 1);
+      } else {
+        setNumLikes(currentLikes - 1);
+      }
+    });
+    updatePostAPI(postID, payload);
+  };
+
+  const processComment = () => {
+    const name = getDataUser().name;
+    const payload = {
+      comment: {
+        commentCreator: name,
+        comment: typoComment,
+      },
+    };
+    updatePostAPI(postID, payload);
+    setTypoComment("");
+  };
 
   return (
     <div className='bg-white mx-32 rounded-md shadow-md h-auto py-3 px-3 my-5'>
@@ -75,25 +117,17 @@ function Post(props) {
           </svg>
         </div>
         <div className='w-full flex justify-between'>
-          <p className='ml-3 text-gray-500'>{numLikes}</p>
-          <p className='ml-3 text-gray-500'>{comment} comment</p>
+          <p className='ml-3 text-gray-500'>{numLikes > 0 ? numLikes : null}</p>
+          <p className='ml-3 text-gray-500'>
+            {comment.length > 0 ? `${comment.length} comment` : null}
+          </p>
         </div>
       </div>
       <hr />
       <div className='grid grid-cols-3 w-full px-5 px-5 my-3'>
         <button
           onClick={() => {
-            // setIsliked(!isLiked)
-            setIsLiked((currentState) => setIsLiked(!currentState));
-            // setNumLikes(numLikes + 1); // bad practice
-            console.log(isLiked);
-            setNumLikes((currentLikes) => {
-              if (!isLiked) {
-                setNumLikes(currentLikes + 1);
-              } else {
-                setNumLikes(currentLikes - 1);
-              }
-            });
+            processLike();
           }}
           className='flex flex-row justify-center items-center w-full space-x-3'>
           <svg
@@ -152,17 +186,20 @@ function Post(props) {
       </div>
       <hr />
       {isLiked && (
-        <div className='flex mt-2 gap-2'>
-          <input
-            className=' border-2 rounded py-3 px-2 flex-1'
-            type='text'
-            placeholder='Your comment'
-            onChange={(e) => {
-              setTypoComment(e.target.value);
-            }}
-            value={typoComment}
-          />
-          <Button text='Reply' onPress={() => alert(typoComment)} />
+        <div>
+          <div className='flex mt-2 gap-2'>
+            <input
+              className=' border-2 rounded py-3 px-2 flex-1'
+              type='text'
+              placeholder='Your comment'
+              onChange={(e) => {
+                setTypoComment(e.target.value);
+              }}
+              value={typoComment}
+            />
+            <Button text='Comment' onPress={() => processComment()} />
+          </div>
+          <CommentSection comments={comment} />
         </div>
       )}
     </div>
