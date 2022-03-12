@@ -10,6 +10,12 @@ import { getAllPostAPI } from "../../api/api";
 function Home() {
   const navigate = useNavigate();
   const [posts, setPost] = useState([]);
+  const [refresh, setRefresh] = useState(true);
+
+  const updateRefresh = () => {
+    setRefresh(!refresh);
+  };
+
   useEffect(() => {
     const res = getDataUser();
     if (res.email == undefined && res.name == undefined) {
@@ -25,7 +31,7 @@ function Home() {
       .catch((err) => {
         console.log(err);
       });
-  }, []);
+  }, [refresh]);
   return (
     <div>
       <Navbar />
@@ -33,7 +39,11 @@ function Home() {
       <Sidebar />
 
       <div className='flex justify-center flex-col lg:mx-32 '>
-        <CreatePost />
+        <CreatePost
+          setRefresh={() => {
+            updateRefresh();
+          }}
+        />
         {/* <Post
           name='Adel'
           time='12 min'
@@ -52,7 +62,7 @@ function Home() {
         /> */}
 
         {posts.map((post) => {
-          console.log(post)
+          console.log(post);
           return (
             <Post
               name={post.postCreator}

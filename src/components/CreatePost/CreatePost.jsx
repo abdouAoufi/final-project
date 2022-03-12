@@ -1,11 +1,25 @@
 import React, { useState } from "react";
 import { createPostAPI } from "../../api/api";
 import { getDataUser } from "../../utils/utils";
+import index from "axios";
+import axios from "axios";
 
-function CreatePost() {
+function CreatePost(props) {
   const [description, setDescription] = useState("");
+  const [image, setImage] = useState("");
   const name = getDataUser().name;
-  console.log({ name });
+  function handleChange(e) {
+    // setFile(URL.createObjectURL(e.target.files[0]));
+    console.log(e.target.files[0]);
+    const formdata = new FormData();
+    formdata.append("image", e.target.files[0]);
+    formdata.append("text", "dummy text");
+    axios.post("http://localhost:1337/upload", formdata, {
+      headers: {
+        "content-type": "multipart/form-data",
+      },
+    });
+  }
   const imgUrl =
     "https://images.unsplash.com/photo-1646932305829-aa5e39e8756e?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1550&q=80";
 
@@ -22,6 +36,7 @@ function CreatePost() {
       .catch((err) => {
         console.log(err);
       });
+    props.setRefresh();
   };
   return (
     <div className='mt-28'>
@@ -79,6 +94,7 @@ function CreatePost() {
                 <circle cx='8.5' cy='8.5' r='1.5' />
                 <path d='M20.4 14.5L16 10 4 20' />
               </svg>
+              <input type='file' placeholder='photo' onChange={handleChange} />
               <span className='text-xs lg:text-md mx-2 font-semibold text-gray-500'>
                 {" "}
                 Photo/Video{" "}

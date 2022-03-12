@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const axiousInstance = axios.create({
-    baseURL: "http://192.168.1.43:1337",
+    baseURL: "https://final-project-gmc.herokuapp.com/",
     timeout: 9000,
     headers: {
         "Content-Type": "application/json",
