@@ -32,7 +32,7 @@ function Home() {
 
       <Sidebar />
 
-      <div className='flex justify-center flex-col mx-32 '>
+      <div className='flex justify-center flex-col lg:mx-32 '>
         <CreatePost />
         {/* <Post
           name='Adel'

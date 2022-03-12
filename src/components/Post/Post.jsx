@@ -50,7 +50,7 @@ function Post(props) {
   };
 
   return (
-    <div className='bg-white mx-32 rounded-md shadow-md h-auto py-3 px-3 my-5'>
+    <div className='bg-white lg:mx-32 rounded-md shadow-md h-auto py-3 px-3 my-5'>
       <div className='w-full h-16  items-center flex justify-between '>
         <div className='flex'>
           <img

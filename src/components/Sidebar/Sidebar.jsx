@@ -8,7 +8,7 @@ function Sidebar() {
     setName(userData.name);
   }, []);
   return (
-    <div className='  fixed left-0 z-0 bg-white rounded p-3 shadow-lg h-screen'>
+    <div className='  fixed left-0 z-0 bg-white rounded p-3 shadow-lg h-screen hidden lg:block'>
       <div className='flex pt-20 items-center space-x-4 p-2 mb-5'>
         <img
           className='h-12 rounded-full'
